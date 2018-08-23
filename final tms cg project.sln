@@ -1,20 +1,1867 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "final tms cg project", "final tms cg project\final tms cg project.vcproj", "{32E3D28B-B033-4E5C-9DD6-0FFA37E0C68B}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
-		Release|Win32 = Release|Win32
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{32E3D28B-B033-4E5C-9DD6-0FFA37E0C68B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{32E3D28B-B033-4E5C-9DD6-0FFA37E0C68B}.Debug|Win32.Build.0 = Debug|Win32
-		{32E3D28B-B033-4E5C-9DD6-0FFA37E0C68B}.Release|Win32.ActiveCfg = Release|Win32
-		{32E3D28B-B033-4E5C-9DD6-0FFA37E0C68B}.Release|Win32.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
+#include<windows.h>
+#include<GL/glut.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#include<iostream>
+#include<GL/gl.h> 
+#include<GL/glu.h> 
+#include<math.h>
+using namespace std;
+int width=1336,height=824,x,y,color=0,speed=30;
+float c[9][3]={{1,0,0},{0,0,1},{0,1,0},{0.31,0.18,0.3},{0.73,0.16,0.96},{0.89,0.47,0.20},{0.85,0.85,0.10},{0.72,0.45,0.20},{0.55,0.47,0.14}};
+void Background();
+void orient(int x1,int y1);
+void cubem(int x1,int x2,int y1,int y2,int z1,int z2);
+void movecar();
+void movecar2(int x1,int y1);
+void movecar3(int x1,int y1);
+void movecar4(int x1,int y1);
+void movecar5(int x1,int y1);
+void movecar6(int x1,int y1);
+void movecar7(int x1,int y1);
+void movecar8(int x1,int y1);
+void multicar();
+void display();
+void display1();
+void car (int x1,int y1);
+void car1();
+void car2();
+void car3();
+void car4();
+void car5();
+void car6();
+void car7();
+void car8();
+void car9();
+void wheels(int x,int y);
+void rotatewheels(int x1,int y1,int r);
+void NormalKey(unsigned char  key ,int nx,int ny)
+{
+	if(key=='s')
+		speed+=20;
+	if(key=='S')
+		speed-=10;
+}
+void draw_arrows1(int x,int y)
+{
+		glColor3f(0,0,0);
+	glBegin(GL_QUADS);
+	glVertex2i(x,y);
+	glVertex2i(x+10,y);
+	glVertex2i(x+10,y+5);
+	glVertex2i(x,y+5);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glVertex2i(x+10,y-5);
+	glVertex2i(x+10,y+10);
+	glVertex2i(x+15,y+3);
+	glEnd();
+	glFlush();
+}
+void draw_arrows2(int x,int y)
+{
+	glColor3f(0,0,0);
+	glBegin(GL_QUADS);
+	glVertex2i(x,y);
+	glVertex2i(x+5,y);
+	glVertex2i(x+5,y+10);
+	glVertex2i(x,y+10);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glVertex2i(x-5,y+10);
+	glVertex2i(x+10,y+10);
+	glVertex2i(x+3,y+15);
+	glEnd();
+}
+void draw_arrows3(int x,int y)
+{
+	glPushMatrix();
+	glTranslatef(x,y,0);
+	glRotatef(180,0,0,1);
+	glTranslatef(-x,-y,0);
+	draw_arrows1(x,y);
+	glPopMatrix();
+}
+void draw_arrows4(int x,int y)
+{	glPushMatrix();
+	glTranslatef(x,y,0);
+	glRotatef(180,0,0,1);
+	glTranslatef(-x,-y,0);
+	draw_arrows2(x,y);
+	glPopMatrix();
+}
+void direction()
+{
+	int x,y,i;
+	x=0.05*width;
+	y=0.3*height;
+	draw_arrows1(x,y);
+	glPushMatrix();
+	for(i=0;i<5;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows1(x,y);
+	}
+	glPopMatrix();
+	x=0.75*width;
+	y=0.3*height;
+	glPushMatrix();
+	draw_arrows1(x,y);
+	for(i=0;i<7;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows1(x,y);
+	}
+	glPopMatrix();
+	x=0.25*width;
+	y=0.45*height;
+	glPushMatrix();
+	draw_arrows1(x,y);
+	for(i=0;i<13;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows1(x,y);
+	}
+	glPopMatrix();
+	x=0.05*width;
+	y=0.70*height;
+	glPushMatrix();
+	draw_arrows3(x,y);
+	for(i=0;i<5;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows3(x,y);
+	}
+	glPopMatrix();
+	x=0.75*width;
+	y=0.70*height;
+	glPushMatrix();
+	draw_arrows3(x,y);
+	for(i=0;i<7;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows3(x,y);
+	}
+	glPopMatrix();
+	x=0.25*width;
+	y=0.58*height;
+	glPushMatrix();
+	draw_arrows3(x,y);
+	for(i=0;i<13;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows3(x,y);
+	}
+	glPopMatrix();
+	x=0.65*width;
+	y=0;
+	draw_arrows2(x,y);
+		glPushMatrix();
+	for(i=0;i<5;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows2(x,y);
+	}
+	glPopMatrix();
+	x=0.65*width;
+	y=0.75*height;
+	draw_arrows2(x,y);
+	glPushMatrix();
+	for(i=0;i<4;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows2(x,y);
+	}
+	glPopMatrix();
+	x=0.30*width;
+	y=0;
+	draw_arrows4(x,y);
+	glPushMatrix();
+	for(i=0;i<5;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows4(x,y);
+	}
+	glPopMatrix();
+	x=0.30*width;
+	y=0.75*height;
+	draw_arrows4(x,y);
+	glPushMatrix();
+	for(i=0;i<4;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows4(x,y);
+	}
+	glPopMatrix();
+	x=0.37*width;
+	y=0.66*height;
+	draw_arrows1(x,y);
+	glPushMatrix();
+	for(i=0;i<6;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows1(x,y);
+	}
+	glPopMatrix();
+	x=0.37*width;
+	y=0.30*height;
+	draw_arrows3(x,y);
+	glPushMatrix();
+	for(i=0;i<6;i++)
+	{
+		glTranslatef(50,0,0);
+		draw_arrows3(x,y);
+	}
+	glPopMatrix();
+	x=0.20*width;
+	y=0.40*height;
+	glPushMatrix();
+
+for(i=0;i<3;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows4(x,y);
+	}
+	glPopMatrix();
+	x=0.80*width;
+	y=0.40*height;
+	
+	glPushMatrix();
+	draw_arrows2(x,y);
+	for(i=0;i<3;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows2(x,y);
+	}
+	glPopMatrix();
+	x=0.10*width;
+	y=0.40*height;
+	glPushMatrix();
+	draw_arrows2(x,y);
+	
+	for(i=0;i<3;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows2(x,y);
+	}
+	glPopMatrix();
+	x=0.90*width;
+	y=0.30*height;
+	glPushMatrix();
+	draw_arrows4(x,y);
+	
+	for(i=0;i<3;i++)
+	{
+		glTranslatef(0,50,0);
+		draw_arrows4(x,y);
+	}
+	glPopMatrix();
+
+
+	}
+
+static void SpecialKeyFunc( int Key, int keyx, int keyy )
+{
+	switch ( Key ) {
+	case GLUT_KEY_RIGHT:
+		glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(speed,0,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+	case GLUT_KEY_LEFT:
+		glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(-speed,0,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+	case GLUT_KEY_DOWN:
+		glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(x,y,0);
+		glRotatef(-90,0,0,1);
+		glTranslatef(-x,-y,0);
+		glTranslatef(60,0,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+	case GLUT_KEY_UP:
+		glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(x,y,0);
+		glRotatef(90,0,0,1);
+		glTranslatef(-x,-y,0);
+		glTranslatef(speed,60,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+	case GLUT_KEY_PAGE_UP:
+		if(x>0&&x<width && y>0.25*height && y<0.75*height)
+		{
+			glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(speed,60,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+		}
+		else if(x>0.25*width && x<0.75*height && y>0 && y<height)
+		{
+			glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(speed,60,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+		}
+		case GLUT_KEY_PAGE_DOWN:
+		if(x>0&&x<width && y>0.25*height && y<0.75*height)
+		{
+			glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(speed,-60,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+		}
+		else if(x>0.25*width && x<0.75*height && y>0 && y<height)
+		{
+			glColor3f(0.9,0.9,0.9);
+		car(x,y);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x,y);
+		glTranslatef(speed,-60,0);
+		glColor3fv(c[color]);
+		car(x,y);
+		glColor3f(0,0,0);
+		wheels(x,y);
+		rotatewheels(x,y,8);
+		break;
+		}
+	}
+}
+void menu(int ch)
+{
+	int state=0;
+	int i=x,j=y;
+	switch(ch)
+	{
+	case 1:color=0;
+		glColor3fv(c[color]);
+		orient(x,y);
+		break;
+		case 2:color=1;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+		case 3:color=2;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+		case 4:color=3;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+		case 5:color=4;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+		case 6:color=5;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+		case 7:color=6;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+		case 8:color=7;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+		case 9:color=8;
+			glColor3fv(c[color]);
+			orient(x,y);
+		break;
+	
+	case 0 :exit(0);
+			break;
+
+	case 11:display();
+			multicar();
+			break;
+	case 10:display();
+			direction();
+			Sleep(3600);
+			Background();
+	}
+	
+}
+
+void mouse(int button,int state,int x1,int y1)
+{
+	if(button==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
+	{
+
+		//Background();
+		x=x1;
+		y=height-y1;
+		glColor3fv(c[color]);
+		orient(x,y);
+		
+		
+	}
+		/*if(button==GLUT_MIDDLE_BUTTON && state==GLUT_DOWN)
+			glutIdleFunc(NULL);*/
+
+}
+void rotatewheels(int x,int y,int r)
+{
+	float i;
+	int x1=x+20,x2=x+90;
+	for(i=0;i<2*3.14;i+=3.14/4)
+	{
+	glColor3f(0.9,0.9,0.6);
+	glBegin(GL_LINES);
+	glVertex3i(x1+r*sin(i),(y+r*cos(i)),0);
+	glVertex3i(x1-r*sin(i),(y-r*cos(i)),0);
+	glEnd();
+	glBegin(GL_LINES);
+	glVertex3i(x1+r*cos(i),y+r*sin(i),0);
+	glVertex3i(x1-r*cos(i),y-r*sin(i),0);
+	glEnd();
+	glFlush();
+	glColor3f(0,0,0);
+	glBegin(GL_LINES);
+	glVertex3i(x1+r*sin(i),(y+r*cos(i)),0);
+	glVertex3i(x1-r*sin(i),(y-r*cos(i)),0);
+	glEnd();
+	glBegin(GL_LINES);
+	glVertex3i(x1+r*cos(i),y+r*sin(i),0);
+	glVertex3i(x1-r*cos(i),y-r*sin(i),0);
+	glEnd();
+	glFlush();
+	glColor3f(0.9,0.9,0.6);
+	glBegin(GL_LINES);
+	glVertex3i(x2+r*sin(i),(y+r*cos(i)),0);
+	glVertex3i(x2-r*sin(i),(y-r*cos(i)),0);
+	glEnd();
+	glBegin(GL_LINES);
+	glVertex3i(x2+r*cos(i),y+r*sin(i),0);
+	glVertex3i(x2-r*cos(i),y-r*sin(i),0);
+	glEnd();
+	glFlush();
+	glColor3f(0,0,0);
+	glBegin(GL_LINES);
+	glVertex3i(x2+r*sin(i),(y+r*cos(i)),0);
+	glVertex3i(x2-r*sin(i),(y-r*cos(i)),0);
+	glEnd();
+	glBegin(GL_LINES);
+	glVertex3i(x2+r*cos(i),y+r*sin(i),0);
+	glVertex3i(x2-r*cos(i),y-r*sin(i),0);
+	glEnd();
+	glFlush();
+	}
+	for(i=0;i<2*3.14;i+=3.14/4)
+	{
+		glColor3f(0.9,0.9,0.9);
+	glBegin(GL_LINES);
+	glVertex3i(x1+r*sin(i),(y+r*cos(i)),0);
+	glVertex3i(x1-r*sin(i),(y-r*cos(i)),0);
+	glEnd();
+	glBegin(GL_LINES);
+	glVertex3i(x1+r*cos(i),y+r*sin(i),0);
+	glVertex3i(x1-r*cos(i),y-r*sin(i),0);
+	glEnd();
+	glFlush();
+
+	glBegin(GL_LINES);
+	glVertex3i(x2+r*sin(i),(y+r*cos(i)),0);
+	glVertex3i(x2-r*sin(i),(y-r*cos(i)),0);
+	glEnd();
+	glBegin(GL_LINES);
+	glVertex3i(x2+r*cos(i),y+r*sin(i),0);
+	glVertex3i(x2-r*cos(i),y-r*sin(i),0);
+	glEnd();
+	glFlush();
+
+	}
+}
+void quad(float x,float y,float x1,float y1)
+{
+	glBegin(GL_QUADS);
+	glVertex2i(x,y);
+	glVertex2i(x1,y);
+	glVertex2i(x1,y1);
+	glVertex2i(x,y1);
+	glEnd();
+}
+void wheels(int x,int y)
+{
+	int x1,y1,r;
+	float i;
+	x1=x+90;
+		y1=y;
+		r=8;
+	for(i=0.0;i<=2*3.14;i+=0.01)
+	{
+		glBegin(GL_POLYGON);
+		glVertex3i(x1+cos(i)*r,y1+sin(i)*r,0);
+	}
+	glEnd();
+	x1=x+20;
+		y1=y;
+		r=8;
+	for(i=0.0;i<=2*3.14;i+=0.01)
+	{
+		glBegin(GL_POLYGON);
+		glVertex3i(x1+cos(i)*r,y1+sin(i)*r,0);
+	}
+	glEnd();
+	
+}
+
+
+void Background()
+{
+	glColor3f(0,0.9,0);//lawns
+	quad(0,0,0.25*width,0.24*height);
+	quad(0.75*width,0,width,0.24*height);
+	quad(0,0.75*height,0.25*width,height);
+	quad(0.75*width,0.75*height,width,height);
+
+	
+	glColor3f(0.9,0.9,0.9);//roads
+	quad(0,0.24*height,width,0.75*height);
+	quad(0.25*width,0,0.75*width,height);
+
+	glColor3f(0.8,0.5,0);//divider
+	quad(0,0.48*height,0.08*width,0.53*height);//horizontal divider1
+	quad(0.22*width,0.48*height,0.78*width,0.53*height);//horizontal divider2
+	quad(0.92*width,0.48*height,width,0.53*height);//horizontal divider3
+
+	quad(0.47*width,0,0.53*width,0.21*height);//vertical divider1
+	quad(0.47*width,0.78*height,0.53*width,height);//vertical divider2
+
+	quad(0.145*width,0.35*height,0.155*width,0.53*height);
+	glBegin(GL_TRIANGLES);
+	glVertex2i(0.145*width,0.35*height);
+	glVertex2i(0.185*width,0.35*height);
+	glVertex2i(0.145*width,0.38*height);
+	glEnd();
+	quad(0.845*width,0.45*height,0.855*width,0.68*height);
+	glBegin(GL_TRIANGLES);
+	glVertex2i(0.855*width,0.68*height);
+	glVertex2i(0.825*width,0.68*height);
+	glVertex2i(0.855*width,0.66*height);
+	glEnd();
+
+
+	glBegin(GL_TRIANGLES);
+	glVertex2i(0.35*width,0.62*height);
+	glVertex2i(0.39*width,0.65*height);
+	glVertex2i(0.39*width,0.62*height);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glVertex2i(0.61*width,0.62*height);
+	glVertex2i(0.61*width,0.65*height);
+	glVertex2i(0.65*width,0.62*height);
+	glEnd();
+	quad(0.35*width,0.60*height,0.65*width,0.62*height);
+
+	glBegin(GL_TRIANGLES);
+	glVertex2i(0.39*width,0.33*height);
+	glVertex2i(0.35*width,0.37*height);
+	glVertex2i(0.39*width,0.37*height);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glVertex2i(0.61*width,0.33*height);
+	glVertex2i(0.61*width,0.37*height);
+	glVertex2i(0.65*width,0.37*height);
+	glEnd();
+	quad(0.35*width,0.37*height,0.65*width,0.39*height);
+}
+void cubel(int x1,int x2,int y1,int y2,int z1,int z2)
+{
+	glBegin(GL_QUADS);// 1 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2,y2,z1);
+	glVertex3i(x1,y2-15,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 2 face
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x2+10,y2+10,z2);
+	glVertex3i(x2,y2,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 3 face
+	glVertex3i(x1+10,y1+10,z2);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x2+10,y2+10,z2);
+	glVertex3i(x1+10,y2+10-15,z2);
+	glEnd();
+	glBegin(GL_QUADS);// 4 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x1+10,y1+10,z2);
+	glVertex3i(x1+10,y2+10-15,z2);
+	glVertex3i(x1,y2-15,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 5 face
+	glVertex3i(x1,y2-15,z1);
+	glVertex3i(x2,y2,z1);
+	glVertex3i(x2+10,y2+10,z2);
+	glVertex3i(x1+10,y2+10-15,z2);
+	glEnd();
+	glBegin(GL_QUADS);// 6 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x1+10,y1+10,z2);
+	glEnd();
+	glFlush();
+}
+void cuber(int x1,int x2,int y1,int y2,int z1,int z2)
+{
+	//glColor3f(0,1,0);
+	glBegin(GL_QUADS);// 1 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2,y2-15,z1);
+	glVertex3i(x1,y2,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 2 face
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x2+10,y2+10-15,z2);
+	glVertex3i(x2,y2-15,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 3 face
+	glVertex3i(x1+10,y1+10,z2);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x2+10,y2+10-15,z2);
+	glVertex3i(x1+10,y2+10,z2);
+	glEnd();
+	glBegin(GL_QUADS);// 4 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x1+10,y1+10,z2);
+	glVertex3i(x1+10,y2+10,z2);
+	glVertex3i(x1,y2,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 5 face
+	glVertex3i(x1,y2,z1);
+	glVertex3i(x2,y2-15,z1);
+	glVertex3i(x2+10,y2+10-15,z2);
+	glVertex3i(x1+10,y2+10,z2);
+	glEnd();
+	glBegin(GL_QUADS);// 6 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x1+10,y1+10,z2);
+	glEnd();
+	glFlush();
+}
+void cubem(int x1,int x2,int y1,int y2,int z1,int z2)
+{
+	//glColor3f(1,0,0);
+	glBegin(GL_QUADS);// 1 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2,y2,z1);
+	glVertex3i(x1,y2,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 2 face
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x2+10,y2+10,z2);
+	glVertex3i(x2,y2,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 3 face
+	glVertex3i(x1+10,y1+10,z2);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x2+10,y2+10,z2);
+	glVertex3i(x1+10,y2+10,z2);
+	glEnd();
+	glBegin(GL_QUADS);// 4 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x1+10,y1+10,z2);
+	glVertex3i(x1+10,y2+10,z2);
+	glVertex3i(x1,y2,z1);
+	glEnd();
+	glBegin(GL_QUADS);// 5 face
+	glVertex3i(x1,y2,z1);
+	glVertex3i(x2,y2,z1);
+	glVertex3i(x2+10,y2+10,z2);
+	glVertex3i(x1+10,y2+10,z2);
+	glEnd();
+	glBegin(GL_QUADS);// 6 face
+	glVertex3i(x1,y1,z1);
+	glVertex3i(x2,y1,z1);
+	glVertex3i(x2+10,y1+10,z2);
+	glVertex3i(x1+10,y1+10,z2);
+	glEnd();
+	glFlush();
+}
+void car (int x,int y)
+{
+
+	cubem(x,x+10,y,y+15,-20,0);
+	cubel(x+10,x+30,y,y+30,-20,0);
+	cubem(x+30,x+70,y,y+30,-20,0);
+	cuber(x+70,x+90,y,y+30,-20,0);
+	cubem(x+90,x+105,y,y+15,-20,0);
+	//wheels(x,y);
+	
+	//windows
+	glColor3f(0.9,0.9,0.9);
+	glBegin(GL_QUADS);// 5 face
+	glVertex3i(x+70+4,y+30-4,-20);
+	glVertex3i(x+90-4,y+30-15+4,-20);
+	glVertex3i(x+90+10-4,y+30+10-15+4,0);
+	glVertex3i(x+70+10+4,y+30+10-4,0);
+	glEnd();
+	glBegin(GL_QUADS);// 5 face
+	glVertex3i(x+10+4,y+30-15+4,-20);
+	glVertex3i(x+30-4,y+30-4,-20);
+	glVertex3i(x+30+10-4,y+30+10-4,0);
+	glVertex3i(x+10+10+4,y+30+10-15+4,0);
+	glEnd();
+	glBegin(GL_QUADS);
+	glVertex3i(x+30+4,y+17+4,-20);
+	glVertex3i(x+70-4,y+17+4,-20);
+	glVertex3i(x+70-4,y+35-4,-20);
+	glVertex3i(x+30+4,y+35-4,-20);
+	glEnd();
+	glColor3f(0.9,0.9,0.9);
+	glBegin(GL_LINES);
+	glVertex3i(x+62,y+21,-20);
+	glVertex3i(x+62,y+31,-20);
+	glEnd();
+	glFlush();
+
+}
+void orient(int x1,int y1)
+{
+	glMatrixMode(GL_MODELVIEW);
+	if((x1>0 && x1<width) && (y1>0.25*height &&y1<0.45*height))
+	{
+		car(x1,y1);
+		glColor3f(0,0,0);
+		wheels(x1,y1);
+		rotatewheels(x,y,8);
+	}
+	else if((x1>0 && x1<width) && (y1>0.54*height &&y1<0.7*height))
+	{
+		car(x1,y1);
+		glColor3f(0,0,0);
+		wheels(x1,y1);
+		rotatewheels(x,y,8);
+
+		
+	}
+	 else if((x1>0.55*width &&x1<0.7*width)&&(y1>0 &&y1<0.3*height)||(x1>0.55*width &&x1<0.7*width)&&(y1>0.7*height &&y1<height))
+	 {	
+		glTranslatef(x1,y1,0);
+		glRotatef(90,0,0,1);
+		glTranslatef(-x1,-y1,0);
+		car(x1,y1);
+		glColor3f(0,0,0);
+		wheels(x1,y1);
+		rotatewheels(x,y,8);
+	}
+	 else if((x1>0.29*width &&x1<0.45*width)&&(y1>0.7*height &&y1<height)||(x1>0.29*width &&x1<0.45*width)&&(y1>0&&y1<0.3*height))
+	{
+		glTranslatef(x1,y1,0);
+		glRotatef(-90,0,0,1);
+		glTranslatef(-x1,-y1,0);
+		car(x1,y1);
+		glColor3f(0,0,0);
+		wheels(x1,y1);
+		rotatewheels(x,y,8);
+	}
+}
+void display1()
+{
+	Background();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	Background();
+	glPopMatrix();
+	glFlush();
+}
+void movecar1(int x1,int y1)
+{
+	int i=x1,j=y1;
+while(i<0.25*width&&j==y1)
+{
+	Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(60,0,0);
+	glColor3f(1,0,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=60;
+	glFlush();
+	
+}
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(-90,0,0,1);
+	glTranslatef(-x1,-y1,0);
+	glColor3f(1,0,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	car2();
+while(j>0)
+{
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,0,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	j-=50;
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	rotatewheels(x1,y1,8);
+
+}
+}
+void movecar2(int x1,int y1)
+{
+		
+int i=x1,j=y1,oj=y1;
+while(i<0.65*width&&j==y1)
+{
+	Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(0,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=50;
+	glFlush();
+}
+glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(35,0,0);
+	glColor3f(0,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=50;
+car4();
+if(i==950||i==884)
+{
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(0,-20,0);
+	glColor3f(0,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=50;
+	glFlush();	
+
+}
+while(i<width)
+{
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(0,0,1);
+	car(x1,y1);
+	
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=50;
+	glFlush();
+}
+glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	rotatewheels(x1,y1,8);
+}
+
+void movecar3(int x1,int y1)
+{
+int i=x1, j=y1,oj=y1;
+while(j<0.17*height)
+{
+	
+	//Sleep(200);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	j+=50;
+	glFlush();
+}
+	car7();
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glRotatef(180,1,0,0);
+	glTranslatef(-x1,-y1,0);
+	glTranslatef(0,40,0);
+	glColor3f(1,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+
+	while(i>0.45*width)
+	{
+		Sleep(200);
+		glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+		glTranslatef(50,0,0);
+		glColor3f(1,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i-=50;
+	glFlush();
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(-90,0,0,1);
+	glTranslatef(-x1,-y1,0);
+	glColor3f(1,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();	
+	j=oj;
+	while(j>-100)
+	{
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	j-=50;
+	glFlush();
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	rotatewheels(x1,y1,8);
+}
+void movecar4(int x1,int y1)
+{
+	int i=x1,j=y1,oi=x1;
+	//Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	glTranslatef(50,0,0);
+	glColor3f(1,0,1);
+	
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glTranslatef(-x1,-y1,0);
+	glColor3f(1,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	while(j<0.52*height)
+	{
+	
+	Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	j+=50;
+	glFlush();
+	}
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glRotatef(180,1,0,0);
+	glTranslatef(-x1,-y1,0);
+	glTranslatef(0,-2,0);
+	glColor3f(1,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	i=oi;
+	car6();
+	while(i>0.27*width)
+	{
+		Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(60,0,0);
+	glColor3f(1,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i-=60;
+	glFlush();
+	}
+	
+	if(i==348)
+	{
+		
+
+	//Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,10,0);
+	glColor3f(1,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i-=50;
+	glFlush();
+	}
+	while(i>0&&i<0.27*width)
+	{
+		//Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(60,0,0);
+	glColor3f(1,0,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i-=50;
+	glFlush();
+	}
+glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	rotatewheels(x1,y1,8);
+}
+void movecar5(int x1,int y1)
+{
+int i=x1,j=y1;
+while(i>0.7*width)
+{
+	Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(-60,0,0);
+	glColor3f(0.5,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i-=50;
+	glFlush();
+}
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glTranslatef(-x1,-y1,0);
+	glTranslatef(0,-20,0);
+	glColor3f(0.5,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	car3();
+	while(j<height)
+	{
+		Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(60,0,0);
+	glColor3f(0.5,1,0);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	j+=50;
+	glFlush();
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	rotatewheels(x1,y1,8);
+}
+
+void movecar6(int x1,int y1)
+{
+int i=x1,j=y1;
+while(j>0.72*height)
+  {
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	j-=50;
+	glFlush();
+	}	
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(-90,0,0,1);
+	glRotatef(180,1,0,0);
+	glTranslatef(-x1,-y1,0);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+
+		while(i>0.2*width)
+		{
+			Sleep(50);
+		glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+		glTranslatef(50,0,0);
+		glColor3f(1,0.5,1);
+		car(x1,y1);
+		glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+		i-=50;
+		glFlush();
+		}
+		Sleep(50);
+		glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glTranslatef(-x1,-y1,0);
+	glTranslatef(-70,0,0);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+		while(j>0.44*height)
+		{
+			Sleep(50);
+		glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+		glTranslatef(-50,0,0);
+		car(x1,y1);
+		glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+		j-=50;
+	
+		glFlush();
+		}
+		Sleep(50);
+		glColor3f(0.9,0.9,0.9);
+		car(x1,y1);
+		glColor3f(0.9,0.9,0.9);
+		wheels(x1,y1);
+		glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glRotatef(180,1,0,0);
+	glTranslatef(-x1,-y1,0);
+	glTranslatef(0,70,0);
+	glTranslatef(0,15,0);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	car5();
+		while(i<0.67*width)
+		{
+		
+	Sleep(100);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=60;
+	glFlush();
+	
+}
+		
+if(i==910||i==894)
+{
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,-70,0);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=50;
+	glFlush();
+
+}
+while(i<width)
+{
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,0.5,1);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=50;
+	glFlush();
+}
+glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	rotatewheels(x1,y1,8);
+}
+void movecar7(int x1,int y1)
+{
+	int i=x1,j=y1;
+	while(j>0.80*height&&j<height)
+	{
+	Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(51,0,0);
+	glColor3f(1,0,0.5);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	j-=51;
+	glFlush();
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glTranslatef(-x1,-y1,0);
+	glTranslatef(0,-40,0);
+	glColor3f(1,0,0.5);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	while(i<0.55*width)
+	{
+		Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,0,0.5);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	i+=50;
+	glFlush();
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(x1,y1,0);
+	glRotatef(90,0,0,1);
+	glTranslatef(-x1,-y1,0);
+	glTranslatef(0,-20,0);
+	glColor3f(1,0,0.5);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	glFlush();
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(0,-20,0);
+	glColor3f(1,0,0.5);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+
+	while(j<height*1.5)
+	{
+		Sleep(50);
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x1,y1);
+	glTranslatef(50,0,0);
+	glColor3f(1,0,0.5);
+	car(x1,y1);
+	glColor3f(0,0,0);
+	wheels(x1,y1);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x1,y1,8);
+	j+=50;
+	glFlush();
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x1,y1);
+	wheels(x1,y1);
+	rotatewheels(x1,y1,8);
+}
+
+void movecar8(int x,int y)
+{
+	int i=x,j=y;
+	glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(x,y,0);
+	glRotatef(90,0,0,1);
+	glTranslatef(-x,-(y+85),0);
+	glColor3f(0.7,0.1,0.5);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	while(j<0.55*height)
+	{
+	glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(50,0,0);
+	j+=50;
+	glColor3f(0.7,0.1,0.5);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(x,y,0);
+	glRotatef(90,0,0,1);
+	glRotatef(180,0,0,1);
+	glTranslatef(-(x+75),-y,0);
+	glColor3f(0.7,0.1,0.5);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	while(i>-0.15*width)
+	{
+		glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(-50,0,0);
+	glColor3f(0.7,0.1,0.5);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	i-=50;
+	}
+	
+}
+void movecar9(int x,int y)
+{
+	int i=x,j=y;
+	glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(x,y,0);
+	glRotatef(-90,0,0,1);
+	glTranslatef(-x,-(y+50),0);
+	glColor3f(0.1,0.3,0.7);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	while(j>0.48*height)
+	{
+		glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(50,0,0);
+	j-=50;
+	glColor3f(0.1,0.3,0.7);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	}
+	glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(x,y,0);
+	glRotatef(-90,0,0,1);
+	glRotatef(180,0,0,1);
+	glTranslatef(-(x),-(y+75),0);
+	glColor3f(0.1,0.3,0.7);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	while(i<width)
+	{
+		glColor3f(0.9,0.9,0.9);
+	car(x,y);
+	glColor3f(0.9,0.9,0.9);
+	wheels(x,y);
+	glTranslatef(50,0,0);
+	glColor3f(0.1,0.3,0.7);
+	car(x,y);
+	glColor3f(0,0,0);
+	wheels(x,y);
+	glColor3f(0.9,0.9,0.9);
+	rotatewheels(x,y,8);
+	i+=50;
+	}
+	
+}
+
+
+void multicar()
+{
+	glPushMatrix();
+	glColor3f(1,0,0);
+	orient(0.05*width,0.29*height);
+	glColor3f(0,0,0);
+	wheels(0.05*width,0.29*height);
+	rotatewheels(0.05*width,0.29*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(0,0,1);
+	orient(0.3*width,0.41*height);
+	glColor3f(0,0,0);
+	wheels(0.3*width,0.41*height);
+	rotatewheels(0.3*width,0.41*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1,1,0);
+	orient(0.6*width,0.1*height);
+	glColor3f(0,0,0);
+	wheels(0.6*width,0.1*height);
+	rotatewheels(0.6*width,0.1*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1,0,1);
+	orient(0.8*width,0.42*height);
+	glColor3f(0,0,0);
+	wheels(0.8*width,0.42*height);
+	rotatewheels(0.8*width,0.42*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(0.5,1,0);
+	orient(0.7*width,0.65*height);
+	glColor3f(0,0,0);
+	wheels(0.7*width,0.65*height);
+	rotatewheels(0.7*width,0.65*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1,0.5,1);
+	orient(0.3*width,0.75*height);
+	glColor3f(0,0,0);
+	wheels(0.3*width,0.75*height);
+	rotatewheels(0.3*width,0.75*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1,0,0.5);
+	orient(0.4*width,0.9*height);
+	glColor3f(0,0,0);
+	wheels(0.4*width,0.9*height);
+	rotatewheels(0.4*width,0.9*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(0.7,0.1,0.5);
+	orient(0.05*width,0.4*height);
+	glColor3f(0,0,0);
+	wheels(0.05*width,0.4*height);
+	rotatewheels(0.05*width,0.4*height,8);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(0.1,0.3,0.7);
+	orient(0.90*width,0.65*height);
+	glColor3f(0,0,0);
+	wheels(0.90*width,0.65*height);
+	rotatewheels(0.90*width,0.65*height,8);
+	glPopMatrix();
+	Sleep(1000);
+	car8();
+	car1();
+	car9();
+}
+void car1()
+{
+	
+	glPushMatrix();
+	glColor3f(1,0,0);
+	glLoadIdentity();
+	orient(0.05*width,0.29*height);//1
+	movecar1(0.05*width,0.29*height);
+	glPopMatrix();
+	
+}
+void car2()
+{
+	glPushMatrix();
+	glColor3f(0,0,1);
+	orient(0.3*width,0.41*height);//2
+	glLoadIdentity();
+	movecar2(0.3*width,0.41*height);
+	glPopMatrix();
+
+}
+void car3()
+{
+	glPushMatrix();
+	glColor3f(1,1,0);
+	glLoadIdentity();
+	orient(0.6*width,0.1*height);//3
+	movecar3(0.6*width,0.1*height);
+	glPopMatrix();
+	
+}
+void car4()
+{
+	glPushMatrix();
+	glColor3f(1,0,1);
+	glLoadIdentity();
+	orient(0.8*width,0.42*height);//4
+	movecar4(0.8*width,0.42*height);
+	glPopMatrix();
+	glFlush();
+}
+void car5()
+{
+	glPushMatrix();
+	glColor3f(0.5,1,0);
+	glLoadIdentity();
+	orient(0.7*width,0.65*height);//5
+	movecar5(0.7*width,0.65*height);
+	glPopMatrix();
+	glFlush();
+}
+void car6()
+{
+	glPushMatrix();
+	glColor3f(1,0.5,1);
+	glLoadIdentity();
+	orient(0.3*width,0.75*height);//6
+	movecar6(0.3*width,0.75*height);
+	glPopMatrix();
+	glFlush();
+}
+void car7()
+{
+	glPushMatrix();
+	glColor3f(1,0,0.5);
+	glLoadIdentity();
+	orient(0.4*width,0.9*height);//7
+	movecar7(0.4*width,0.9*height);
+	glPopMatrix();	
+	glFlush();
+}
+
+void car8()
+{
+	glPushMatrix();
+	glColor3f(0.7,0.1,0.5);
+	glLoadIdentity();
+	orient(0.05*width,0.4*height);//7
+	movecar8(0.05*width,0.4*height);
+	glPopMatrix();	
+	glFlush();
+}
+void car9()
+{
+	glPushMatrix();
+	glColor3f(0.1,0.3,0.7);
+	glLoadIdentity();
+	orient(0.90*width,0.65*height);//7
+	movecar9(0.90*width,0.65*height);
+	glPopMatrix();	
+	glFlush();
+}
+void display()
+{
+glClear(GL_COLOR_BUFFER_BIT);
+glClearColor(0.9,0.9,0.9,0);
+Background();
+glLoadIdentity();
+Background();
+glFlush();
+}
+void reshape(int w,int n)
+{
+
+	glViewport(0,0,w,n);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0,(GLdouble)w,0,(GLdouble) n,-200,200);
+	glMatrixMode(GL_MODELVIEW);
+	
+}
+
+void main(int argc,char *argv[])
+{
+	printf("\t \t\t B.N.M. Institute of Technology. \t\t\t\n");
+	printf("\t\t \tPROJECT TOPIC : TRAFFIC MANAGEMENT SYSTEM. \n");
+	printf("\t \t \t PROJECT DONE BY:SURABHI.N \t \t USN:1BG14CS107 .\n");
+	printf("\t \t Under the guidance of:Smt Deepa Yogish. \n");
+	printf("\n \n Use the mouse buttons for the following operations: \n");
+	printf("Use the Right Mouse Button:\n");
+	printf("1.Direction of Movement of vehicles .\n");
+	printf("2.To chose the color of the car in Single car demonstration\n");
+	printf("3.Multi Car demonstration \n");
+	printf("4.To Exit \n");
+	printf("Use the left mouse Button: to display the car at a specified position.\n");
+	printf("USE THE ARROW IN  THE KEYBOARDS to move the single car and page up and page down to change lanes.\n");
+	printf("Use s to increase speed and S to decrease speed\n");
+	Sleep(1000);
+	glutInit(&argc,argv);
+	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB|GLUT_DEPTH);
+	glutInitWindowSize(10000,10000);
+	glutCreateWindow("Traffic Management");
+	glutMouseFunc(mouse);
+	glutReshapeFunc(reshape);
+	glutSpecialFunc( SpecialKeyFunc );
+	 glutKeyboardFunc(NormalKey); 
+	glutDisplayFunc(display);
+	int id=glutCreateMenu(menu);
+	glutAddMenuEntry("blue",2);
+	glutAddMenuEntry("green",3);
+	glutAddMenuEntry("violet",4);
+	glutAddMenuEntry("Purple",5);
+	glutAddMenuEntry("orangle",6);
+	glutAddMenuEntry("gold",7);
+	glutAddMenuEntry("copper",8);
+	glutAddMenuEntry("bronze",9);
+
+	glutCreateMenu(menu);
+	glutAddMenuEntry("exit",0);
+	glutAddMenuEntry("direction ",10);
+	glutAddSubMenu("Chose single car color",id);
+	glutAddMenuEntry("multicar",11);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	glutMainLoop();
+}
+
